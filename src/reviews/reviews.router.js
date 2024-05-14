@@ -1,11 +1,10 @@
 const router = require("express").Router({ mergeParams: true });
-const controller = require("./movies.controller");
-const reviewsRouter = require("../reviews/reviews.router");
+const controller = require("./reviews.controller");
 const methodNotAllowed = require("../errors/methodNotAllowed");
 
-router.use("/:movieId/reviews", controller.movieExists, reviewsRouter);
-router.route("/:movieId")
-  .get(controller.read)
+router.route("/:reviewId")
+  .put(controller.update)
+  .delete(controller.delete)
   .all(methodNotAllowed);
 router.route("/")
   .get(controller.list)

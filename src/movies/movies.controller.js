@@ -21,7 +21,7 @@ async function movieExists(req, res, next) {
   // No matching movie was found, return an error
   next({
     status: 404,
-    message: `Movie does not exist: ${movieId}.`,
+    message: "Review cannot be found.",
   });
 }
 
@@ -31,8 +31,11 @@ async function movieExists(req, res, next) {
 
 // Request: GET /movies?is_showing=<bool>
 async function list(req, res) {
+  // Check if the query parameter is_showing is provided and set to true
   const bIsShowing = req.query.is_showing === "true";
+  // Call the list function in movies.service
   const data = await service.list(bIsShowing);
+  // Respond with the result
   res.json({ data });
 }
 
@@ -43,6 +46,7 @@ function read(req, res) {
 };
 
 module.exports = {
-  list: asyncErrorBoundary(list),
-  read: [movieExists, asyncErrorBoundary(read)], // Run validation checks before calling update
+  list: asyncErrorBoundary(list), // Wrap the list function call in asyncBoundaryError to catch other errors related to the promise
+  read: [movieExists, asyncErrorBoundary(read)],
+  movieExists, // Exported for use with merged routes in movies.router
 };
