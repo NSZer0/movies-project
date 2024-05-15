@@ -47,6 +47,6 @@ function read(req, res) {
 
 module.exports = {
   list: asyncErrorBoundary(list), // Wrap the list function call in asyncBoundaryError to catch other errors related to the promise
-  read: [movieExists, asyncErrorBoundary(read)],
+  read: [asyncErrorBoundary(movieExists), read],
   movieExists, // Exported for use with merged routes in movies.router
 };

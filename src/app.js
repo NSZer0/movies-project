@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const moviesRouter = require('./movies/movies.router');
 const reviewsRouter = require('./reviews/reviews.router');
+const theatersRouter = require('./theaters/theaters.router');
 
 const notFound = require("./errors/notFound");
 const errorHandler = require("./errors/errorHandler");
@@ -16,6 +17,7 @@ app.use(express.json());
 // Proper routes
 app.use("/movies", moviesRouter);
 app.use("/reviews", reviewsRouter);
+app.use("/theaters", theatersRouter);
 
 // Error handling
 app.use(notFound);

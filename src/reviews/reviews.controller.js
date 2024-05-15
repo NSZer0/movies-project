@@ -25,23 +25,6 @@ async function reviewExists(req, res, next) {
   });
 }
 
-// Validate the the request body contains a specific property
-// function requestDataHasProperty(propertyName) {
-//   return function (req, res, next) {
-//     // Get the body data from the request
-//     const { data = {} } = req.body;
-//     // Make sure the property exists and is not empty
-//     if (data[propertyName])    
-//       return next(); // Data is valid, go to the next function
-
-//     // Return an error
-//     next({
-//       status: 400,
-//       message: `Request must include a ${propertyName}`
-//     });
-//   };
-// }
-
 /////////////////////////////////////////////////////////////////
 // Router middleware
 /////////////////////////////////////////////////////////////////
@@ -87,8 +70,6 @@ module.exports = {
   list,
   update: [
     asyncErrorBoundary(reviewExists), // Wrap functions involving a promise asyncBoundaryError to catch promise errors
-    // requestDataHasProperty("score"),
-    // requestDataHasProperty("content"),
     asyncErrorBoundary(update),
   ],
   delete: [
