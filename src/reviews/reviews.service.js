@@ -30,12 +30,14 @@ async function list(movie_id) {
   return results;
 }
 
-async function update(updatedReview) {
+// Update a record in the reviews table with the provided data
+function update(updatedReview) {
   return knex("reviews")
     .where({ review_id: updatedReview.review_id })
     .update(updatedReview, "*");
 }
 
+// Return a record from the critics table matching reviewId
 function getCritic(reviewId) {
   return knex("critics as c")
     .select("c.*")
@@ -44,6 +46,7 @@ function getCritic(reviewId) {
     .first();
 }
 
+// Delete a record from the reviews table matching review_id
 function destroy(review_id) {
   return knex("reviews").where({ review_id }).del();
 }
