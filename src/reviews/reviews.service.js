@@ -31,26 +31,17 @@ async function list(movie_id) {
 }
 
 async function update(updatedReview) {
-  await knex("reviews")
+  return knex("reviews")
     .where({ review_id: updatedReview.review_id })
     .update(updatedReview, "*");
-  
-  // Get the updated review entry
-  const reviewEntry = await knex("reviews")
-    .select("*")
-    .where("review_id", updatedReview.review_id)
-    .first();
-    
-  // Get the critic entry
-  const criticEntry = await knex("critics as c")
-      .select("c.*")
-      .join("reviews as r", "c.critic_id", "r.critic_id")
-      .where("r.review_id", updatedReview.review_id)
-      .first();
+}
 
-  // Merge critic information into the critic object
-  reviewEntry.critic = criticEntry;
-  return reviewEntry;
+function getCritic(reviewId) {
+  return knex("critics as c")
+    .select("c.*")
+    .join("reviews as r", "c.critic_id", "r.critic_id")
+    .where("r.review_id", reviewId)
+    .first();
 }
 
 function destroy(review_id) {
@@ -61,5 +52,6 @@ module.exports = {
   read,
   list,
   update,
+  getCritic,
   delete: destroy,
 };

@@ -41,18 +41,25 @@ async function list(req, res) {
 
 // Request: PUT /reviews/:reviewId
 async function update(req, res, next) {
+  // Get the review_id from res.locals
+  const reviewId = res.locals.review.review_id;
   // Store the new data and the matching review_id to pass to the database call
   const updatedReview = {
     ...res.locals.review,
     ...req.body.data,
-    review_id: res.locals.review.review_id,
+    review_id: reviewId,
   };
 
   // Call the update function in reviews.service and pass it the new data
-  const data = await service.update(updatedReview);
-
+  await service.update(updatedReview);
+  // Get the updated review
+  const review = await service.read(reviewId);
+  // Get the critic to add to the review response
+  const criticEntry = await service.getCritic(reviewId);
+  // Merge critic information into the critic object
+  review.critic = criticEntry;
   // Respond with the updated review
-  res.json({ data });
+  res.json({ data: review });
 }
 
 // Request: DELETE /orders/:orderId
