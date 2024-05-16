@@ -22,7 +22,6 @@ The response from the server should look like the following:
       "description": "Chihiro ...",
       "image_url": "https://imdb-api.com/..."
     }
-    // ...
   ]
 }
 ```
@@ -94,7 +93,6 @@ The response from the server for a request to `/movies/1/theaters` should look l
       "is_showing": true,
       "movie_id": 1
     }
-    // ...
   ]
 }
 ```
